@@ -5,7 +5,8 @@ const thoughtsSchema = new Schema(
         thoughtText: {
             type: String,
             required: true,
-            // need to set between 1 and 280 questions
+            minlength: 1,
+            maxlength: 280
         }, 
         createdAt: {
             type: Date,
@@ -13,8 +14,14 @@ const thoughtsSchema = new Schema(
         },
         username : [
             // how do we reference the user that created this thought
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
         ],
-        reactions: [reactionSchema],
+        reactions: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Reaction'
+        }],
 
     },
     {
@@ -26,8 +33,8 @@ const thoughtsSchema = new Schema(
 
 thoughtsSchema.virtual('reactionCount')
 .get(function(){
-    return this.reactions.length + 1
+    return this.reactions.length
 })
-const Thought = model('thoughtsSchema', userSchema);
+const Thought = model('Thought', thoughtsSchema);
 
 module.exports = Thought;

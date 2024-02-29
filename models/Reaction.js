@@ -9,7 +9,7 @@ const reactionSchema = new Schema (
     reactionBody: {
         type: String,
         Required: true,
-        // set something for 280 character max
+        maxlength: 280
     },
     username: {
         type: String,
@@ -29,5 +29,10 @@ const reactionSchema = new Schema (
 );
 
 //  need to set a getter method to format the timestamp on query
+reactionSchema.virtual('CreatedAt').get(function() {
+    return this.createdAt.toDateString();
+});
 
+const Reaction = model('reaction', reactionSchema);
 
+module.exports = Reaction;
