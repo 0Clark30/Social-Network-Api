@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const thoughtsSchema = require("./Thought");
-const emailRegex = `/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;`;
+const emailRegex = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/";
 
 const userSchema = new Schema(
   {
@@ -14,9 +14,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      match: [emailRegex, "Please provide a valid email address"],
+      // match: [emailRegex],
     },
-    thoughts: [thoughtsSchema],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Thought",
+      },
+    ],
     friends: [
       {
         type: Schema.Types.ObjectId,
